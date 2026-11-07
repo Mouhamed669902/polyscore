@@ -3,10 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PolyScore</title>
+    <meta name="description" content="PolyScore : le sport de l'INP-HB, en temps réel." />
+    <title>PolyScore | Le sport de l'INP-HB, en temps réel</title>
   </head>
   <body>
-    <h1>PolyScore</h1>
-    <p>Le sport de l'INP-HB, en temps réel.</p>
+    <header>
+      <a href="index.html" class="logo">PolyScore</a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="#competitions">Compétitions</a></li>
+          <li><a href="#calendrier">Calendrier</a></li>
+          <li><a href="#classements">Classements</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Le sport de l'INP-HB, en temps réel</h1>
+        <p>Suivez les matchs, les résultats et les classements des compétitions inter-écoles.</p>
+      </section>
+
+      <section id="direct">
+        <h2>Matchs en direct</h2>
+        <article class="match-card">
+          <p class="match-status">En direct</p>
+          <p class="match-teams">
+            <span class="team">ESI</span>
+            <span class="score">2 - 1</span>
+            <span class="team">ESMG</span>
+          </p>
+          <p class="match-info">Football · Inter-Écoles</p>
+        </article>
+      </section>
+
+      <section id="calendrier">
+        <h2>Prochaines rencontres</h2>
+        <article class="match-card">
+          <p class="match-status">À venir</p>
+          <p class="match-teams">
+            <span class="team">ESTP</span>
+            <span class="score">vs</span>
+            <span class="team">ESA</span>
+          </p>
+          <p class="match-info">
+            Basketball · <time datetime="2026-11-14T15:00">14 nov. à 15h00</time>
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 PolyScore · INP-HB</p>
+    </footer>
   </body>
 </html>
