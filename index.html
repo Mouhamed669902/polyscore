@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="PolyScore : le sport de l'INP-HB, en temps réel." />
     <title>PolyScore | Le sport de l'INP-HB, en temps réel</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
@@ -15,7 +15,7 @@
           <li><a href="index.html">Accueil</a></li>
           <li><a href="#competitions">Compétitions</a></li>
           <li><a href="#calendrier">Calendrier</a></li>
-          <li><a href="#classements">Classements</a></li>
+          <li><a href="#resultats">Résultats</a></li>
         </ul>
       </nav>
     </header>
@@ -26,31 +26,33 @@
         <p>Suivez les matchs, les résultats et les classements des compétitions inter-écoles.</p>
       </section>
 
+      <!-- Les cartes de ces trois sections sont générées par js/main.js -->
       <section id="direct">
         <h2>Matchs en direct</h2>
-        <article class="match-card">
-          <p class="match-status">En direct</p>
-          <p class="match-teams">
-            <span class="team">ESI</span>
-            <span class="score">2 - 1</span>
-            <span class="team">ESMG</span>
-          </p>
-          <p class="match-info">Football · Inter-Écoles</p>
-        </article>
       </section>
 
       <section id="calendrier">
         <h2>Prochaines rencontres</h2>
-        <article class="match-card">
-          <p class="match-status">À venir</p>
-          <p class="match-teams">
-            <span class="team">ESTP</span>
-            <span class="score">vs</span>
-            <span class="team">ESA</span>
-          </p>
-          <p class="match-info">
-            Basketball · <time datetime="2026-11-14T15:00">14 nov. à 15h00</time>
-          </p>
+      </section>
+
+      <section id="resultats">
+        <h2>Derniers résultats</h2>
+      </section>
+
+      <!-- Section statique : les compétitions -->
+      <section id="competitions">
+        <h2>Compétitions</h2>
+        <article class="competition-card">
+          <h3>IE (Inter-Écoles)</h3>
+          <p>La compétition principale entre les écoles de l'INP-HB.</p>
+        </article>
+        <article class="competition-card">
+          <h3>Leaguey League</h3>
+          <p>Nom et modalités à confirmer.</p>
+        </article>
+        <article class="competition-card">
+          <h3>OISSU</h3>
+          <p>Office Ivoirien des Sports Scolaires et Universitaires.</p>
         </article>
       </section>
     </main>
@@ -58,5 +60,9 @@
     <footer>
       <p>&copy; 2026 PolyScore · INP-HB</p>
     </footer>
+
+    <!-- defer : exécutés après la construction de la page, dans cet ordre -->
+    <script src="js/data.js" defer></script>
+    <script src="js/main.js" defer></script>
   </body>
 </html>
