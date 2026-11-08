@@ -1,191 +1,1275 @@
-/* ========== 1. Variables (charte graphique INP-HB) ========== */
-:root {
-  /* Couleurs du logo INP-HB (valeurs estimées, à confirmer) */
-  --color-green: #058f3c;
-  --color-orange: #f58220;
-  --color-white: #ffffff;
+/* ==========================================================================
+   PolyScore : feuille de style
+   Plan : 1 Polices  2 Variables  3 Base  4 En-tête  5 Hero et tableau d'affichage
+          6 Sections  7 Matchs  8 Classement  9 Compétitions  10 Pied de page
+          11 Mouvement réduit
+   ========================================================================== */
 
-  /* Déclinaisons dérivées */
-  --color-green-dark: #046b2d;    /* fonds portant du texte blanc */
-  --color-green-light: #e6f4ea;   /* fond de page, teinte très claire */
-  --color-orange-text: #b85a0a;   /* orange foncé pour le petit texte lisible */
-  --color-text: #1f3326;          /* vert très foncé : pas de noir */
-
-  --radius: 12px;
+/* ---------- 1. Polices (hébergées dans /fonts) ---------- */
+@font-face {
+  font-family: "Big Shoulders";
+  src: url("../fonts/big-shoulders-display-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
 }
 
-/* ========== 2. Base ========== */
-* {
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/figtree-latin-wght-normal.woff2") format("woff2");
+  font-weight: 300 900;
+  font-display: swap;
+}
+
+/* ---------- 2. Variables : la charte graphique en un seul endroit ---------- */
+:root {
+  color-scheme: light;
+
+  /* Couleurs relevées sur le logo officiel de l'INP-HB */
+  --brand: #028d34;
+  --accent: #f68100;
+
+  /* Dérivées, pour garder un contraste lisible */
+  --brand-deep: #036a29; /* texte et fonds portant du blanc */
+  --accent-text: #a44f00; /* orange assez foncé pour du texte sur fond clair */
+  --night: #04301c; /* vert très foncé : remplace le noir */
+
+  --bg: #ffffff;
+  --bg-soft: #eef6f0;
+  --ink: #0d2b1b;
+  --ink-soft: #42604f;
+  --line: #dbe8df;
+  --line-strong: #b9d0c1;
+  --brand-text: #036a29;
+
+  /* Typographie fluide : la taille suit la largeur de l'écran */
+  --font-display: "Big Shoulders", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --step-1: clamp(1.125rem, 1.05rem + 0.4vw, 1.3rem);
+  --step-3: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+
+  --header-h: 4.5rem;
+  --radius: 14px;
+  --container: 72rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --night: #031f13;
+    --bg: #072a1c;
+    --bg-soft: #0a3424;
+    --ink: #e9f5ee;
+    --ink-soft: #a8c7b5;
+    --line: #17503a;
+    --line-strong: #27684d;
+    --brand-text: #4fd17f;
+    --brand-deep: #0b7a34;
+    --accent-text: #ffa23a;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --night: #031f13;
+  --bg: #072a1c;
+  --bg-soft: #0a3424;
+  --ink: #e9f5ee;
+  --ink-soft: #a8c7b5;
+  --line: #17503a;
+  --line-strong: #27684d;
+  --brand-text: #4fd17f;
+  --brand-deep: #0b7a34;
+  --accent-text: #ffa23a;
+}
+
+/* ---------- 3. Base ---------- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+* {
   margin: 0;
-  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background-color: var(--color-green-light);
-  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
   line-height: 1.6;
+  color: var(--ink);
+  background-color: var(--bg);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1;
+  text-wrap: balance;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
 }
 
-ul {
+ul,
+ol {
+  padding: 0;
   list-style: none;
 }
 
-/* ========== 3. En-tête et navigation ========== */
-header {
-  background-color: var(--color-green-dark);
-  color: var(--color-white);
-  border-bottom: 4px solid var(--color-orange);
-  padding: 1rem;
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+}
+
+abbr[title] {
+  text-decoration: none;
+  cursor: help;
+}
+
+/* Le focus clavier reste toujours visible */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.container {
+  width: min(100% - 2rem, var(--container));
+  margin-inline: auto;
+}
+
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--night);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* ---------- 4. En-tête ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--bg);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  width: min(100% - 2rem, var(--container));
+  height: var(--header-h);
+  margin-inline: auto;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1.5rem;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  margin-right: auto;
 }
 
-nav ul {
+/* Le logo est conçu pour un fond clair : il garde sa propre pastille blanche.
+   Invisible sur l'en-tête clair, elle sauve la lisibilité en mode sombre et sur le pied de page. */
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 3.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.site-nav ul {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  gap: 0.25rem;
 }
 
-nav a {
-  padding: 0.25rem 0.5rem;
-  border-bottom: 2px solid transparent;
+.site-nav a {
+  display: block;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s, background-color 0.15s;
 }
 
-nav a:hover {
-  border-bottom-color: var(--color-orange);
+.site-nav a:hover {
+  color: var(--ink);
+  background-color: var(--bg-soft);
 }
 
-/* ========== 4. Contenu principal ========== */
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1rem;
+.site-nav a[aria-current="true"] {
+  color: var(--ink);
+  box-shadow: inset 0 -3px 0 var(--accent);
+  border-radius: 8px 8px 0 0;
 }
 
-section {
-  margin-bottom: 2rem;
+.header-actions {
+  display: flex;
+  gap: 0.25rem;
 }
 
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  transition: background-color 0.15s;
+}
+
+.icon-button:hover {
+  background-color: var(--bg-soft);
+}
+
+.icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* L'icône affichée dépend du thème actif */
+.icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .icon-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-sun {
+    display: block;
+  }
+
+  :root:not([data-theme="light"]) .icon-moon {
+    display: none;
+  }
+}
+
+/* Bouton hamburger : trois barres dessinées en CSS */
+.nav-toggle {
+  display: none;
+}
+
+.burger,
+.burger::before,
+.burger::after {
+  display: block;
+  width: 1.4rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.25s, background-color 0.25s;
+}
+
+.burger {
+  position: relative;
+}
+
+.burger::before,
+.burger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.burger::before {
+  top: -7px;
+}
+
+.burger::after {
+  top: 7px;
+}
+
+.nav-toggle[aria-expanded="true"] .burger {
+  background-color: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .burger::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .burger::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Barre de progression de lecture : pilotée par le défilement, sans JavaScript */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 759px) {
+  .nav-toggle {
+    display: grid;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 1rem 1rem;
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.5rem);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  }
+
+  .site-nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+  }
+
+  .site-nav a {
+    padding: 0.85rem 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .site-nav a[aria-current="true"] {
+    box-shadow: inset 4px 0 0 var(--accent);
+    border-radius: 4px;
+  }
+}
+
+/* ---------- 5. Hero et tableau d'affichage ---------- */
 .hero {
-  background: linear-gradient(135deg, var(--color-green-dark), var(--color-green));
-  color: var(--color-white);
-  border-radius: var(--radius);
-  border-bottom: 5px solid var(--color-orange);
-  padding: 2.5rem 1.5rem;
-  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.5rem, 6vw, 5.5rem);
+  background-color: var(--night);
+  color: #fff;
+}
+
+/* Les lignes d'un terrain, en filigrane. Le cercle central reprend l'anneau du logo. */
+.pitch {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 2;
+}
+
+.pitch .pitch-ring {
+  stroke: rgba(2, 141, 52, 0.5);
+  stroke-width: 14;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 3.5rem;
+  }
 }
 
 .hero h1 {
-  font-size: 1.75rem;
-  line-height: 1.2;
-  margin-bottom: 0.75rem;
+  font-weight: 900;
+  font-size: clamp(3rem, 1.4rem + 7vw, 6.25rem);
+  line-height: 0.92;
+  text-transform: uppercase;
 }
 
-/* Les sections de contenu (hors hero) sont des grilles de cartes */
-main > section:not(.hero) {
+/* Empêche de couper un mot au tiret (INP-HB) */
+.nowrap {
+  white-space: nowrap;
+}
+
+.hero-lead {
+  max-width: 34rem;
+  margin-top: 1.25rem;
+  font-size: var(--step-1);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.button {
+  display: inline-block;
+  flex: 1 1 11rem;
+  text-align: center;
+  padding: 0.85rem 1.4rem;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button-accent {
+  background-color: var(--accent);
+  color: var(--night);
+}
+
+.button-accent:hover {
+  background-color: #ff9a2e;
+}
+
+.button-ghost {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+
+.button-ghost:hover {
+  border-color: #fff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Le tableau d'affichage : la seule vraie scène animée de la page */
+.scoreboard {
+  padding: clamp(1rem, 3vw, 1.75rem);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  animation: board-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes board-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+.board-empty {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sb-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.badge-live {
+  background-color: var(--accent);
+  color: var(--night);
+}
+
+.badge-next {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+
+.live-dot {
+  position: relative;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background-color: var(--night);
+}
+
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--night);
+  animation: pulse 1.6s ease-out infinite;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.sb-meta {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.sb-clock {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.sb-body {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.25rem);
+  margin-block: clamp(1.25rem, 3vw, 2rem);
 }
 
-main > section:not(.hero) h2 {
-  grid-column: 1 / -1;            /* le titre occupe toute la largeur */
-  color: var(--color-green-dark);
-  border-left: 5px solid var(--color-orange);
-  padding-left: 0.75rem;
-}
-
-/* ========== 5. Cartes de match ========== */
-.match-card {
-  background-color: var(--color-white);
-  border-radius: var(--radius);
-  border-left: 5px solid var(--color-green);
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(4, 107, 45, 0.15);
+.sb-team {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
   text-align: center;
 }
 
-.match-status {
+.sb-code {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.9rem, 1rem + 3.4vw, 3.2rem);
+  line-height: 1;
+}
+
+.sb-name {
+  display: none;
   font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--color-green-dark);
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.72);
 }
 
-/* Matchs en direct : accent orange */
-#direct .match-card {
-  border-left-color: var(--color-orange);
+@media (min-width: 520px) {
+  .sb-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
-#direct .match-status {
-  color: var(--color-orange-text);
-}
-
-.match-teams {
+.sb-score {
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0.5rem 0;
+  gap: 0.3rem;
+  font-size: clamp(3rem, 1.6rem + 6vw, 5.5rem);
 }
 
-.score {
-  background-color: var(--color-orange-text);
-  color: var(--color-white);
-  padding: 0.1rem 0.75rem;
+/* Chaque chiffre est une tuile blanche, comme sur un vrai tableau à palettes */
+.digit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0.8em;
+  padding-inline: 0.1em;
+  border-radius: 0.12em;
+  background-color: #fff;
+  color: var(--night);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0.06em 0 rgba(0, 0, 0, 0.25);
+  animation: flip-in 0.7s 0.35s cubic-bezier(0.3, 1.3, 0.5, 1) both;
+}
+
+/* La fente au milieu de la palette */
+.digit::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background-color: rgba(4, 48, 28, 0.22);
+}
+
+.digit.is-changing {
+  animation: flip-change 0.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+@keyframes flip-in {
+  from {
+    transform: perspective(400px) rotateX(-90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flip-change {
+  from {
+    transform: perspective(400px) rotateX(-90deg);
+    opacity: 0.3;
+  }
+}
+
+.sb-sep {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.7em;
+  color: var(--accent);
+}
+
+.sb-vs {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+  color: var(--accent);
+}
+
+.sb-foot {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.live-others {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.live-others:empty {
+  display: none;
+}
+
+.live-others li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.06);
+  font-weight: 600;
+}
+
+.live-others .live-dot {
+  background-color: var(--accent);
+}
+
+.live-others .live-dot::after {
+  border-color: var(--accent);
+}
+
+.live-others .others-clock {
+  margin-left: auto;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.live-others .sport-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* ---------- 6. Sections ---------- */
+.section {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.section-tint {
+  background-color: var(--bg-soft);
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.section-head h2 {
+  font-size: var(--step-3);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.section-note {
+  max-width: 34rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- 7. Matchs : onglets, filtres, liste ---------- */
+.tabs {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 12px;
+  background-color: var(--bg-soft);
+}
+
+.tab {
+  padding: 0.55rem 1.1rem;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  font-weight: 700;
+  color: var(--ink-soft);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.tab[aria-selected="true"] {
+  background-color: var(--brand-deep);
+  color: #fff;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Une puce = un bouton radio natif, masqué visuellement mais toujours utilisable au clavier */
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border: 1.5px solid var(--line-strong);
   border-radius: 999px;
+  font-weight: 600;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--brand);
+}
+
+.chip input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chip:has(input:checked) {
+  border-color: var(--brand-deep);
+  background-color: var(--brand-deep);
+  color: #fff;
+}
+
+.chip:has(input:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.sport-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.select-field select {
+  height: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 999px;
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.500l5 5 5-5' fill='none' stroke='%23028d34' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  font-weight: 600;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-field select:hover {
+  border-color: var(--brand);
+}
+
+/* Liste de matchs. container-type : les lignes réagissent à la largeur de la LISTE,
+   pas à celle de l'écran. */
+.matches {
+  container-type: inline-size;
+  view-transition-name: matches;
+  border-top: 1px solid var(--line);
+}
+
+.match {
+  display: grid;
+  grid-template-columns: 3.75rem 1fr;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.15s;
+}
+
+.match:hover {
+  background-color: var(--bg-soft);
+}
+
+.match-date {
+  display: grid;
+  grid-row: span 2;
+  justify-items: center;
+  align-self: start;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
+.match-date .day {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.match-date .weekday,
+.match-date .month {
+  font-size: 1rem;
+}
+
+.team-lines {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.team-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+
+.team-line .goals {
+  min-width: 2ch;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.team-line.is-loser {
+  color: var(--ink-soft);
+  font-weight: 500;
 }
 
 .match-info {
-  font-size: 0.85rem;
-  opacity: 0.85;
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
 }
 
-/* ========== 6. Pied de page ========== */
-footer {
-  background-color: var(--color-green-dark);
-  color: var(--color-white);
-  border-top: 4px solid var(--color-orange);
+.kickoff {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.sport-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: var(--brand-text);
+}
+
+.status-tag {
+  padding: 0.1rem 0.6rem;
+  border: 1.5px solid var(--accent-text);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+@container (min-width: 640px) {
+  .match {
+    grid-template-columns: 4.5rem minmax(12rem, 22rem) 1fr;
+    gap: 1rem 2rem;
+    padding: 1.1rem 1rem;
+  }
+
+  .match-date {
+    grid-row: auto;
+    align-self: center;
+  }
+
+  .match-info {
+    grid-column: 3;
+    justify-content: flex-end;
+    text-align: right;
+  }
+}
+
+.empty-state {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 2rem 0.5rem;
+  color: var(--ink-soft);
+}
+
+.empty-state strong {
+  font-size: var(--step-1);
+  color: var(--ink);
+}
+
+.button-outline {
+  padding: 0.6rem 1.1rem;
+  border: 2px solid var(--brand-deep);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--brand-text);
+  font-weight: 700;
+}
+
+.button-outline:hover {
+  background-color: var(--brand-deep);
+  color: #fff;
+}
+
+::view-transition-group(matches) {
+  animation-duration: 0.25s;
+}
+
+/* ---------- 8. Classement ---------- */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.standings {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.standings th,
+.standings td {
+  padding: 0.85rem 0.5rem;
   text-align: center;
-  padding: 1rem;
+  border-bottom: 1px solid var(--line-strong);
 }
 
-/* ========== 7. Responsive : écrans larges (tablette et plus) ========== */
-@media (min-width: 768px) {
-  header {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 1rem 2rem;
+.standings thead th {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.standings .col-team {
+  text-align: left;
+}
+
+.standings td.team {
+  text-align: left;
+}
+
+.team-sigle {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.team-full {
+  display: none;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.standings .col-pts {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--brand-text);
+}
+
+.standings tbody tr:first-child td:first-child {
+  box-shadow: inset 5px 0 0 var(--accent);
+}
+
+.standings .pos {
+  font-weight: 800;
+}
+
+.form {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.form i {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
+
+.form .win {
+  background-color: var(--brand);
+}
+
+.form .draw {
+  width: 0.5rem;
+  height: 0.5rem;
+  align-self: center;
+  background-color: var(--line-strong);
+}
+
+.form .loss {
+  border: 2px solid var(--accent-text);
+}
+
+.col-extra,
+.col-form {
+  display: none;
+}
+
+@media (min-width: 560px) {
+  .col-extra {
+    display: table-cell;
   }
 
-  .hero {
-    padding: 4rem 2rem;
-  }
-
-  .hero h1 {
-    font-size: 2.5rem;
+  .team-full {
+    display: block;
   }
 }
 
-.empty-message {
-  grid-column: 1 / -1;
-  opacity: 0.7;
-  font-style: italic;
+@media (min-width: 760px) {
+  .col-form {
+    display: table-cell;
+  }
+}
+
+/* ---------- 9. Compétitions ---------- */
+.competition-list {
+  display: grid;
+  gap: 2.5rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.competition {
+  padding-top: 1.25rem;
+  border-top: 5px solid var(--brand);
+}
+
+.competition:nth-child(2) {
+  border-top-color: var(--accent);
+}
+
+.competition:nth-child(3) {
+  border-top-color: var(--ink);
+}
+
+.competition h3 {
+  font-size: var(--step-3);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--brand-text);
+}
+
+.competition-name {
+  margin-top: 0.25rem;
+  font-weight: 700;
+}
+
+.competition p:not(.competition-name) {
+  margin-top: 0.5rem;
+  max-width: 28rem;
+  color: var(--ink-soft);
+}
+
+.competition dl {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.25rem;
+}
+
+.competition dt {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.competition dd {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+/* ---------- 10. Pied de page ---------- */
+.site-footer {
+  padding-block: 3rem;
+  background-color: var(--night);
+  color: rgba(255, 255, 255, 0.85);
+  border-top: 4px solid var(--accent);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.footer-brand .brand-logo {
+  height: 3.5rem;
+}
+
+.footer-brand,
+.footer-partner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-partner img {
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.footer-partner p {
+  max-width: 14rem;
+  font-size: 0.9rem;
+}
+
+.footer-note {
+  max-width: 34rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (min-width: 900px) {
+  .footer-grid {
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .footer-note {
+    justify-self: end;
+  }
+}
+
+/* ---------- 11. Mouvement réduit : on respecte le réglage de l'utilisateur ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

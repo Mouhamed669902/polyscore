@@ -1,0 +1,8 @@
+# Dépendances et secrets : ne jamais les envoyer sur GitHub
+node_modules/
+.env
+.env.*
+
+# Fichiers du système
+.DS_Store
+Thumbs.db
